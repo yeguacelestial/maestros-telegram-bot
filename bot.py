@@ -47,11 +47,18 @@ def main():
             )
         )
         context.bot.answer_inline_query(update.inline_query.id, results)
+    
+    def unknown(update, context):
+        context.bot.send_message(chat_id=update.effective_chat.id, text="¡Comando desconocido!")
 
     # COMMANDS
     # Start command
     start_handler = CommandHandler('start', start)
     dispatcher.add_handler(start_handler)
+
+    # Unknown commands handling
+    unknown_handler = MessageHandler(Filters.command, unknown)
+    dispatcher.add_handler(unknown_handler)
 
     # Returns message in CAPS
     caps_handler = CommandHandler('caps', caps)
