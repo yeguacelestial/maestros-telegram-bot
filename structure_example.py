@@ -1,6 +1,7 @@
 import os
 import logging
 from dotenv import load_dotenv
+from values import updater, dispatcher
 
 # Bot main libraries
 from telegram.ext import Updater
@@ -16,8 +17,8 @@ def main():
     load_dotenv()
     TOKEN = os.getenv('TOKEN')
 
-    updater = Updater(token=TOKEN, use_context=True)
-    dispatcher = updater.dispatcher
+    # updater = Updater(token=TOKEN, use_context=True)
+    # dispatcher = updater.dispatcher
 
     logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s -%(message)s',
                         level=logging.INFO)
