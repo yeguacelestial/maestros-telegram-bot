@@ -20,4 +20,9 @@ def capture(link):
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
         time.sleep(3)
-        image = driver.find_element_by_class_name('tab-content').screenshot('listado.png')
+        #image = driver.find_element_by_class_name('tab-content').screenshot('listado.png')
+        element = driver.find_element_by_id('listado')
+        element_png = element.screenshot_as_png
+
+        with open('listado.png') as file:
+            file.write(element_png)
