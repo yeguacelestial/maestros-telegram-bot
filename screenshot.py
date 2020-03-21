@@ -20,6 +20,8 @@ def capture(link):
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
         time.sleep(1)
-        S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
-        driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
-        image = driver.find_element_by_class_name('well').screenshot('listado.png')
+        original_size = driver.get_window_size()
+        required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
+        required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
+        driver.set_window_size(required_width, required_height)
+        image = driver.find_element_by_id('listado').screenshot('listado.png')
