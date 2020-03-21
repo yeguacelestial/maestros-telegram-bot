@@ -1,5 +1,6 @@
 import time, os
 from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from dotenv import load_dotenv
 
 
@@ -13,10 +14,12 @@ def capture(link):
     options = webdriver.FirefoxOptions()
     options.headless = True
     options.binary_location = FIREFOX_BIN
+
+    binary = FirefoxBinary(FIREFOX_BIN)
     #options.add_argument('--disable-gpu')
     #options.add_argument('--no-sandbox')
 
-    with webdriver.Firefox(executable_path=PATH, options=options) as driver:
+    with webdriver.Firefox(executable_path=GECKODRIVER_PATH, options=options, firefox_binary=binary) as driver:
         driver.get(link)
         time.sleep(3)
         image = driver.find_element_by_id('listado').screenshot('listado.png')
