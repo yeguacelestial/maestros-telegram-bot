@@ -41,7 +41,7 @@ def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, 
                             text=
                             "¡Bienvenido al bot de Lista de Maestros!\n"+
-                            "Escribe \ para ver los comandos disponibles."
+                            "Escribe /ayuda para ver los comandos disponibles."
     )
 
 def maestro(update, context):
@@ -164,19 +164,20 @@ def materia(update, context):
         url_final = url_horarios + materias_links[maxIndex]
     except:
         context.bot.send_message(chat_id=update.effective_chat.id, 
-                            text=f"No se encontraron resultados con '{materia}'.")
+                            text=f"No se encontraron resultados de '{materia}'.")
         return
 
+    context.bot.send_message(chat_id=update.effective_chat.id, text=f"Buscando {materia}...")
     capture(url_final)
     context.bot.send_message(chat_id=update.effective_chat.id, 
-                            text=f"Mostrando la materia: <b>{materia_elegida}</b>",
+                            text=f"Mostrando la materia: <a href='{url_final}'><b>{materia_elegida}</b></a>",
                             parse_mode="HTML")
     context.bot.send_photo(chat_id=update.effective_chat.id, text=" ".join(context.args), photo=open('listado.png', 'rb'))
 
 def ayuda(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
-                text="<b>Comandos disponibles</b>\n\n"+
-                "/maestro [nombre del maestro] [resultados]\n <i>Información sobre el maestro</i>\n\n"+
+                text="<b>Comandos disponibles y uso</b>\n\n"+
+                "/maestro [nombre del maestro] [resultados]\n <i>Chidos y gachos del maestro especificado.</i>\n\n"+
                 "/materia [nombre de la materia]\n <i>Horarios disponibles de la materia</i>\n\n"+
                 "/ayuda\n<i>Comandos disponibles del bot</i>",
                 parse_mode='HTML')
