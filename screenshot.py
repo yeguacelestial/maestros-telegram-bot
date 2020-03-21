@@ -14,10 +14,10 @@ def capture(link):
     options = webdriver.FirefoxOptions()
     options.headless = True
     options.binary_location = FIREFOX_BIN
+    options.add_argument('--disable-gpu')
+    options.add_argument('--no-sandbox')
 
     binary = FirefoxBinary(FIREFOX_BIN)
-    #options.add_argument('--disable-gpu')
-    #options.add_argument('--no-sandbox')
 
     with webdriver.Firefox(executable_path=GECKODRIVER_PATH, options=options, firefox_binary=binary) as driver:
         driver.get(link)
