@@ -10,7 +10,7 @@ options = webdriver.ChromeOptions()
 options.headless = True
 options.binary_location = GOOGLE_CHROME_BIN
 options.add_argument('--disable-gpu')
-options.add_argument('--no-sandbox')
+#options.add_argument('--no-sandbox')
 
 def capture(link):
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, options=options) as driver:
