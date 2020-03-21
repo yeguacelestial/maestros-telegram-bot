@@ -133,8 +133,14 @@ def materia(update, context):
     url_last_term = url_horarios + last_term_link
 
     # First letter of materia
-    first_letter_materia = "/materias/" + materia[0]
-    current_url = url_last_term + first_letter_materia + "/"
+    try:
+        first_letter_materia = "/materias/" + materia[0]
+        current_url = url_last_term + first_letter_materia + "/"
+
+    except IndexError:
+        context.bot.send_message(chat_id=update.effective_chat.id, 
+                                text=f"¡Dime el nombre de una materia!\nEjemplo: /materia mate 2")
+        return
 
     # Fetch all materias
     response = requests.get(current_url)
