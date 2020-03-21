@@ -158,14 +158,16 @@ def materia(update, context):
 
         matches.append(fuzz.ratio(nombre, materia))
     
-    maxIndex = matches.index(max(matches))
-    materia_elegida = materias_nombres[maxIndex]
-    url_final = url_horarios + materias_links[maxIndex]
-    
-    print(f'El usuario escribio: {materia} - El mejor resultado: {materia_elegida} - URL: {url_final}')
+    try:
+        maxIndex = matches.index(max(matches))
+        materia_elegida = materias_nombres[maxIndex]
+        url_final = url_horarios + materias_links[maxIndex]
+    except:
+        context.bot.send_message(chat_id=update.effective_chat.id, 
+                            text=f"No se encontraron resultados con '{materia}'.")
+        return
 
     capture(url_final)
-
     context.bot.send_message(chat_id=update.effective_chat.id, 
                             text=f"Mostrando la materia: <b>{materia_elegida}</b>",
                             parse_mode="HTML")
@@ -174,7 +176,7 @@ def materia(update, context):
 def ayuda(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                 text="<b>Comandos disponibles</b>\n\n"+
-                "/maestro [nombre del maestro] [cantidad de resultados]\n <i>Información sobre el maestro</i>\n\n"+
+                "/maestro [nombre del maestro] [resultados]\n <i>Información sobre el maestro</i>\n\n"+
                 "/materia [nombre de la materia]\n <i>Horarios disponibles de la materia</i>\n\n"+
                 "/ayuda\n<i>Comandos disponibles del bot</i>",
                 parse_mode='HTML')
