@@ -63,7 +63,7 @@ def maestro(update, context):
 
     except IndexError as e:
         context.bot.send_message(chat_id=update.effective_chat.id, 
-                                text=f"¡Dime el nombre de algun maestro! En /ayuda te doy más información sobre cómo funciono.")
+                                text=f"¡Dime el nombre de algun maestro!\nEjemplo: /maestro renato colunga")
         return
 
 
@@ -101,14 +101,20 @@ def maestro(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="¡No se encontraron resultados! ☹️")
 
 def materia(update, context):
-    # Filtering and replacing data
-    materia = " ".join(context.args)
-    materia = materia.replace('1', 'I')
-    materia = materia.replace('2', 'II')
-    materia = materia.replace('3', 'III')
-    materia = materia.replace('4', 'IV')
-    materia = materia.replace('5', 'V')
-    materia = materia.lower()
+    try:
+        # Filtering and replacing data
+        materia = " ".join(context.args)
+        materia = materia.replace('1', 'I')
+        materia = materia.replace('2', 'II')
+        materia = materia.replace('3', 'III')
+        materia = materia.replace('4', 'IV')
+        materia = materia.replace('5', 'V')
+        materia = materia.lower()
+    
+    except IndexError as e:
+        context.bot.send_message(chat_id=update.effective_chat.id, 
+                                text=f"¡Dime el nombre de una materia!\nEjemplo: /materia mate 2")
+        return
 
     # URLs
     url_horarios = 'https://horarios.fime.me'
