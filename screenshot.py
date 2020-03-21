@@ -10,7 +10,7 @@ def capture(link):
     CHROMEDRIVER_PATH = os.getenv('CHROMEDRIVER_PATH')
 
     options = webdriver.ChromeOptions()
-    #options.headless = True
+    options.headless = True
     options.binary_location = GOOGLE_CHROME_BIN
     options.add_argument('--disable-gpu')
     options.add_argument("--disable-dev-shm-usage")
@@ -19,10 +19,7 @@ def capture(link):
 
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
-        time.sleep(3)
-        #image = driver.find_element_by_class_name('tab-content').screenshot('listado.png')
-        element = driver.find_element_by_class_name('well')
-        element_png = element.screenshot_as_png
-
-        with open('listado.png', 'wb') as file:
-            file.write(element_png)
+        time.sleep(1)
+        S = lambda X: driver.execute_script('return document.body.parentNode.scroll'+X)
+        driver.set_window_size(S('Width'),S('Height')) # May need manual adjustment
+        image = driver.find_element_by_class_name('well').screenshot('listado.png')
