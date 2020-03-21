@@ -20,4 +20,4 @@ def capture(link):
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
         time.sleep(3)
-        image = driver.find_element_by_id('listado').screenshot('listado.png')
+        image = driver.find_element_by_class_name('horarios tablesorter table table-bordered table-condensed').screenshot('listado.png')
