@@ -21,7 +21,7 @@ def capture(link):
         driver.get(link)
         time.sleep(3)
         #image = driver.find_element_by_class_name('tab-content').screenshot('listado.png')
-        element = driver.find_element_by_tag_name('body')
+        element = driver.find_element_by_class_name('well')
         element_png = element.screenshot_as_png
 
         with open('listado.png', 'wb') as file:
