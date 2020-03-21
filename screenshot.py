@@ -24,5 +24,5 @@ def capture(link):
         element = driver.find_element_by_id('listado')
         element_png = element.screenshot_as_png
 
-        with open('listado.png') as file:
+        with open('listado.png', 'wb') as file:
             file.write(element_png)
