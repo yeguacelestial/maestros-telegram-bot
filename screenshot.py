@@ -1,5 +1,9 @@
-import time
+import time, os
 from selenium import webdriver
+
+load_dotenv()
+GOOGLE_CHROME_BIN = os.getenv('GOOGLE_CHROME_BIN')
+CHROMEDRIVER_PATH = os.getenv('CHROMEDRIVER_PATH')
 
 options = webdriver.ChromeOptions()
 options.headless = True
