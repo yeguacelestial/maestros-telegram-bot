@@ -13,10 +13,10 @@ def capture(link):
     options = webdriver.FirefoxOptions()
     options.headless = True
     options.binary_location = FIREFOX_BIN
-    # options.add_argument('--disable-gpu')
-    # options.add_argument('--no-sandbox')
+    #options.add_argument('--disable-gpu')
+    #options.add_argument('--no-sandbox')
 
-    with webdriver.Firefox(firefox_executable=PATH, options=options) as driver:
+    with webdriver.Firefox(executable_path=PATH, options=options) as driver:
         driver.get(link)
         time.sleep(3)
         image = driver.find_element_by_id('listado').screenshot('listado.png')
