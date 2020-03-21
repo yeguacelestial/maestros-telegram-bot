@@ -16,7 +16,8 @@ def capture(link):
     options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--no-sandbox')
     options.add_argument('--headless')
-    options.add_argument("--window-size=1280,1696")
+    #options.add_argument("--window-size=1280,1696")
+    options.add_argument("--window-size=1280,2696")
 
     with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
