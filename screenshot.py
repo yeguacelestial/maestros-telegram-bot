@@ -4,7 +4,6 @@ from dotenv import load_dotenv
 
 
 def capture(link):
-
     load_dotenv()
     GOOGLE_CHROME_BIN = os.getenv('GOOGLE_CHROME_BIN')
     CHROMEDRIVER_PATH = os.getenv('CHROMEDRIVER_PATH')
