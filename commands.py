@@ -1,7 +1,10 @@
 from telegram.ext import CommandHandler
 from telegram.ext import MessageHandler, Filters
 from bs4 import BeautifulSoup
+
 from values import updater, dispatcher
+from screenshot import capture
+from fuzzywuzzy import fuzz
 
 import random
 import requests
@@ -11,6 +14,7 @@ def activate_commands():
     # Add commands
     add_command(start)
     add_command(maestro)
+    add_command(materia)
     add_command(ayuda)
 
     # Handling unknown commands
@@ -97,14 +101,80 @@ def maestro(update, context):
         context.bot.send_message(chat_id=update.effective_chat.id, text="¡No se encontraron resultados! ☹️")
 
 def materia(update, context):
-    context.bot.send_message(chat_id=update.effective_chat.id,
-                             text="Comando en mantenimiento.",
-                             parse_mode='HTML')
+    # Filtering and replacing data
+    materia = " ".join(context.args)
+    materia = materia.replace('1', 'I')
+    materia = materia.replace('2', 'II')
+    materia = materia.replace('3', 'III')
+    materia = materia.replace('4', 'IV')
+    materia = materia.replace('5', 'V')
+    materia = materia.lower()
+
+    # URLs
+    url_horarios = 'https://horarios.fime.me'
+    url_dependencia_fime = f'{url_horarios}/dependencia/2316'
+    url_periodo = None
+
+    # Parse info from HTML
+    response = requests.get(url_dependencia_fime)
+    data = response.text
+    soup = BeautifulSoup(data, features='html.parser')
+
+    # Get last term
+    last_term = soup.find_all('li', {'class': 'feature sombra-blanca'})[0]
+    last_term_link = last_term.a['href']
+
+    url_last_term = url_horarios + last_term_link
+
+    # First letter of materia
+    first_letter_materia = "/materias/" + materia[0]
+    current_url = url_last_term + first_letter_materia + "/"
+
+    # Fetch all materias
+    response = requests.get(current_url)
+    data = response.text
+    soup = BeautifulSoup(data, features='html.parser')
+
+    materias = soup.findAll('li', { 'class': 'feature sombra-blanca' })
+
+    materias_dict = {}
+    for m in materias:
+        materias_dict.update({m.text: m.a['href']})
+    
+    materias_nombres = []
+    materias_links = []
+    for k,v in materias_dict.items():
+        materias_nombres.append(k)
+        materias_links.append(v)
+
+    matches = []
+    for nombre in materias_nombres:
+        nombre = nombre.lower()
+        nombre = nombre.replace('á', 'a')
+        nombre = nombre.replace('é', 'e')
+        nombre = nombre.replace('í', 'i')
+        nombre = nombre.replace('ó', 'o')
+        nombre = nombre.replace('ú', 'u')
+
+        matches.append(fuzz.ratio(nombre, materia))
+    
+    maxIndex = matches.index(max(matches))
+    materia_elegida = materias_nombres[maxIndex]
+    url_final = url_horarios + materias_links[maxIndex]
+    
+    print(f'El usuario escribio: {materia} - El mejor resultado: {materia_elegida} - URL: {url_final}')
+
+    capture(url_final)
+
+    context.bot.send_message(chat_id=update.effective_chat.id, 
+                            text=f"Mostrando la materia: <b>{materia_elegida}</b>",
+                            parse_mode="HTML")
+    context.bot.send_photo(chat_id=update.effective_chat.id, text=" ".join(context.args), photo=open('listado.png', 'rb'))
 
 def ayuda(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id,
                 text="<b>Comandos disponibles</b>\n\n"+
                 "/maestro [nombre del maestro] [cantidad de resultados]\n <i>Información sobre el maestro</i>\n\n"+
-                                   "/materia [nombre de la materia]\n <i>Horarios disponibles de la materia</i>\n\n"+
-                                   "/ayuda\n<i>Comandos disponibles del bot</i>",
-                             parse_mode='HTML')
+                "/materia [nombre de la materia]\n <i>Horarios disponibles de la materia</i>\n\n"+
+                "/ayuda\n<i>Comandos disponibles del bot</i>",
+                parse_mode='HTML')
