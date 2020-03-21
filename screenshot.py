@@ -1,5 +1,6 @@
 import time, os
 from selenium import webdriver
+from dotenv import load_dotenv
 
 load_dotenv()
 GOOGLE_CHROME_BIN = os.getenv('GOOGLE_CHROME_BIN')
