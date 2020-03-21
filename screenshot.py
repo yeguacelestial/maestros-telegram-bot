@@ -19,7 +19,7 @@ def capture(link):
 
     binary = FirefoxBinary(FIREFOX_BIN)
 
-    with webdriver.Firefox(executable_path=GECKODRIVER_PATH, options=options, firefox_binary=binary) as driver:
+    with webdriver.Firefox(executable_path='geckodriver', options=options, firefox_binary=binary) as driver:
         driver.get(link)
         time.sleep(3)
         image = driver.find_element_by_id('listado').screenshot('listado.png')
