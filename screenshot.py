@@ -23,5 +23,10 @@ def capture(link):
         original_size = driver.get_window_size()
         required_width = driver.execute_script('return document.body.parentNode.scrollWidth')
         required_height = driver.execute_script('return document.body.parentNode.scrollHeight')
-        driver.set_window_size(required_width, required_height)
-        image = driver.find_element_by_id('listado').screenshot('listado.png')
+        driver.set_window_size(required_width+74, required_height)
+
+        element = driver.find_element_by_id('listado')
+        element_png = element.screenshot_as_png
+        with open("listado.png", "wb") as file:
+            file.write(element_png)
+        #image = driver.find_element_by_id('listado').screenshot('listado.png')
