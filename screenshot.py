@@ -1,25 +1,23 @@
 import time, os
 from selenium import webdriver
-from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 from dotenv import load_dotenv
 
 
 def capture(link):
+
     load_dotenv()
-    FIREFOX_BIN = os.getenv('FIREFOX_BIN')
-    GECKODRIVER_PATH = os.getenv('GECKODRIVER_PATH')
-    LD_LIBRARY_PATH = os.getenv('LD_LIBRARY_PATH')
-    PATH = os.getenv('PATH')
+    GOOGLE_CHROME_BIN = os.getenv('GOOGLE_CHROME_BIN')
+    CHROMEDRIVER_PATH = os.getenv('CHROMEDRIVER_PATH')
 
-    options = webdriver.FirefoxOptions()
-    options.headless = True
-    options.binary_location = FIREFOX_BIN
+    options = webdriver.ChromeOptions()
+    #options.headless = True
+    options.binary_location = GOOGLE_CHROME_BIN
     options.add_argument('--disable-gpu')
+    options.add_argument("--disable-dev-shm-usage")
     options.add_argument('--no-sandbox')
+    options.add_argument('--headless')
 
-    binary = FirefoxBinary(FIREFOX_BIN)
-
-    with webdriver.Firefox(executable_path=GECKODRIVER_PATH, options=options, firefox_binary=binary) as driver:
+    with webdriver.Chrome(executable_path=CHROMEDRIVER_PATH, chrome_options=options) as driver:
         driver.get(link)
         time.sleep(3)
         image = driver.find_element_by_id('listado').screenshot('listado.png')
