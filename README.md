@@ -7,12 +7,14 @@ Se puede acceder al bot directamente desde http://t.me/ListaDeMaestrosBot o bien
 ## Comandos
 `/maestro <nombre-maestro> <opcional: numero-resultados>`, regresa "Chidos" y "Gachos" de los maestros con ese nombre/apellido.
 
-**Ejemplo de uso**
 ![Ejemplo maestro](examples/ejemplo1.png)
 
-`/materia <nombre-materia>`, regresa horarios disponibles de la materia indicada.
+
+`/materia <nombre-materia>`, regresa una imagen con horarios disponibles de la materia indicada.
+
 ![Ejemplo materia](examples/ejemplo2.png)
 
 
 `/ayuda`, Comandos disponibles del bot.
+
 ![Ejemplo maestro](examples/ejemplo3.png)
