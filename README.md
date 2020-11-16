@@ -1,5 +1,4 @@
 # maestros-telegram-bot
-====
 Web scraper bot de Telegram que saca información de maestros y materias de http://horarios.fime.me y http://listademaestros.com.
 
 ## Acceso
